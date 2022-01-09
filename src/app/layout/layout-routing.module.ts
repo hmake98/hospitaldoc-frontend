@@ -1,39 +1,47 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from './layout.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AdminGuard } from "../shared/guard/admin.guard";
+import { SubAdminGuard } from "../shared/guard/subadmin.guard";
+
+import { LayoutComponent } from "./layout.component";
+import { Screen1Component } from "./screen1/screen1.component";
+import { Screen2Component } from "./screen2/screen2.component";
 
 const routes: Routes = [
     {
-        path: '',
+        path: "",
         component: LayoutComponent,
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             {
-                path: 'dashboard',
-                loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
-            },
-            { path: 'charts', loadChildren: () => import('./charts/charts.module').then((m) => m.ChartsModule) },
-            { path: 'tables', loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule) },
-            { path: 'forms', loadChildren: () => import('./form/form.module').then((m) => m.FormModule) },
-            {
-                path: 'bs-element',
-                loadChildren: () => import('./bs-element/bs-element.module').then((m) => m.BsElementModule)
-            },
-            { path: 'grid', loadChildren: () => import('./grid/grid.module').then((m) => m.GridModule) },
-            {
-                path: 'components',
-                loadChildren: () => import('./bs-component/bs-component.module').then((m) => m.BsComponentModule)
+                path: "",
+                redirectTo: "dashboard",
             },
             {
-                path: 'blank-page',
-                loadChildren: () => import('./blank-page/blank-page.module').then((m) => m.BlankPageModule)
-            }
-        ]
-    }
+                path: "dashboard",
+                loadChildren: () =>
+                    import("./dashboard/dashboard.module").then(
+                        (m) => m.DashboardModule
+                    ),
+            },
+            {
+                path: "screen1",
+                loadChildren: () =>
+                    import("./screen1/screen1.module").then(
+                        (m) => m.Screen1Module
+                    ),
+                canActivate: [AdminGuard],
+            },
+            {
+                path: "screen2",
+                component: Screen2Component,
+                canActivate: [SubAdminGuard],
+            },
+        ],
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class LayoutRoutingModule {}

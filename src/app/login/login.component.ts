@@ -1,23 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { routerTransition } from '../router.animations';
-import { CommonService } from '../shared/services/common.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
+import { gql } from "apollo-angular";
+import { Apollo } from "apollo-angular";
+import { CommonService } from "../shared/services/common.service";
+
+const login = gql`
+    mutation login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            accessToken
+            user {
+                id
+                email
+                name
+                role
+                hospital {
+                    name
+                }
+            }
+        }
+    }
+`;
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    animations: [routerTransition()]
+    selector: "app-login",
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
     name: string;
-    constructor(public router: Router, private commonService: CommonService) {}
+    email: string;
+    password: string;
+    error: string;
+    @ViewChild("userForm") public userFrm: NgForm;
 
-    ngOnInit() {
-        this.name = this.commonService.name;
+    constructor(
+        private router: Router,
+        private apollo: Apollo,
+        private commonService: CommonService
+    ) {
+        this.name = "HospitalDoc";
     }
 
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+    ngOnInit() {}
+
+    onLogin() {
+        if (!this.userFrm.invalid) {
+            this.apollo
+                .mutate({
+                    mutation: login,
+                    variables: { ...this.userFrm.value },
+                })
+                .subscribe(
+                    (res) => {
+                        const token = res.data["login"]["accessToken"];
+                        const user = res.data["login"]["user"];
+                        this.commonService.roleSubject.next(user.role);
+                        localStorage.setItem("isLoggedin", "true");
+                        localStorage.setItem("token", token);
+                        localStorage.setItem("user", JSON.stringify(user));
+                        this.router.navigate(["/dashboard"]);
+                    },
+                    (err) => {
+                        console.log(err);
+                        this.error = "Invalid login details!";
+                    }
+                );
+        }
     }
 }

@@ -1,26 +1,33 @@
-<div [@routerTransition] class="login-page">
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-            <h1>{{name}}</h1>
-            <form role="form">
-                <div class="form-content">
-                    <div class="form-group">
-                        <input [placeholder]="'Email' | translate" class="form-control input-underline input-lg"
-                            type="text" />
-                    </div>
-
-                    <div class="form-group">
-                        <input [placeholder]="'Password' | translate" class="form-control input-underline input-lg"
-                            type="password" />
-                    </div>
+<div class="login-page">
+    <div class="content">
+        <!-- <h1 class="app-name">Sb Admin Material</h1> -->
+        <form class="login-form" fxFlex #userForm="ngForm">
+            <div class="text-center">
+                <h2 class="app-name">{{name}}</h2>
+            </div>
+            <div fxFlex fxlayout="row" fxlayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100"
+                        [ngClass]="{'mat-form-field-invalid': userForm.dirty && userForm.errors }">
+                        <input matInput type="email" placeholder="Email" name="email" required ngModel>
+                    </mat-form-field>
                 </div>
-                <a (click)="onLoggedin()" [routerLink]="['/dashboard']" class="btn rounded-btn">{{
-                    'Log in' | translate
-                }}</a>
-                &nbsp;
-                <a [routerLink]="['/signup']" class="btn rounded-btn">{{ 'Register' | translate }}</a>
-            </form>
-        </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100"
+                        [ngClass]="{'mat-form-field-invalid': userForm.dirty && userForm.errors }">
+                        <input matInput type="password" placeholder="Password" name="password" required ngModel>
+                    </mat-form-field>
+                </div>
+            </div>
+            <p class="invalid-color">{{error}}</p>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <button mat-raised-button color="primary" class="w-100" (click)="onLogin()">Login</button>
+                </div>
+            </div>
+
+        </form>
     </div>
 </div>
