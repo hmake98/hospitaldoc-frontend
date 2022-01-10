@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Apollo, gql } from "apollo-angular";
 
 export interface DocumentData {
@@ -29,10 +30,10 @@ const getDocumentList = gql`
             barcode
             name
             link
-            created_by {
-                id
-                name
-            }
+            pages
+            rackNumber
+            boxNumber
+            viewCount
             createdAt
             updatedAt
         }
@@ -40,31 +41,48 @@ const getDocumentList = gql`
 `;
 
 const ELEMENT_DATA: DocumentData[] = [];
-
 @Component({
-    selector: "app-screen2",
-    templateUrl: "./screen2.component.html",
-    styleUrls: ["./screen2.component.scss"],
+    selector: "app-list-document",
+    templateUrl: "./list-document.component.html",
+    styleUrls: ["./list-document.component.scss"],
 })
-export class Screen2Component implements OnInit {
-    displayedColumns: string[] = ["id", "name", "link", "barcode"];
+export class ListDocumentComponent implements OnInit {
+    displayedColumns: string[] = [
+        "id",
+        "name",
+        "link",
+        "barcode",
+        "pages",
+        "boxNumber",
+        "rackNumber",
+        "viewCount",
+    ];
     dataSource = new MatTableDataSource<DocumentData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    qp: number;
 
-    constructor(private apollo: Apollo) {
+    constructor(
+        private apollo: Apollo,
+        private router: Router,
+        private route: ActivatedRoute
+    ) {
+        this.qp = Number(this.route.snapshot.params.id);
+    }
+
+    ngOnInit() {
         this.apollo
-            .query({
+            .query<{ getDocumentList: DocumentData[] }>({
                 query: getDocumentList,
                 variables: {
                     skip: 0,
                     take: 100,
+                    hospitalId: this.qp,
                 },
+                fetchPolicy: "network-only",
             })
             .subscribe(
                 (res) => {
-                    const data = res.data["getDocumentList"];
-                    console.log(data);
-
+                    const data = res.data.getDocumentList;
                     this.dataSource.data = data;
                 },
                 (err) => {
@@ -72,9 +90,10 @@ export class Screen2Component implements OnInit {
                 }
             );
     }
-
-    ngOnInit() {}
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+    }
+    toAdd() {
+        this.router.navigate(["/add-document", this.qp]);
     }
 }

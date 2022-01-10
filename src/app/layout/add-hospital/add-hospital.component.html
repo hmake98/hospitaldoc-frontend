@@ -1,0 +1,23 @@
+<button mat-button (click)="back()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    Back
+</button>
+
+<h2> Add hospital </h2>
+<hr>
+<form #myform="ngForm">
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput name="name" ngModel>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" name="email" ngModel>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" ngModel>
+    </mat-form-field>
+</form>
+<br>
+<button mat-button color="primary" (click)="addHospital()"> Add </button>

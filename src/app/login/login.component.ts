@@ -15,6 +15,7 @@ const login = gql`
                 name
                 role
                 hospital {
+                    id
                     name
                 }
             }
@@ -31,7 +32,6 @@ export class LoginComponent implements OnInit {
     name: string;
     email: string;
     password: string;
-    error: string;
     @ViewChild("userForm") public userFrm: NgForm;
 
     constructor(
@@ -59,11 +59,26 @@ export class LoginComponent implements OnInit {
                         localStorage.setItem("isLoggedin", "true");
                         localStorage.setItem("token", token);
                         localStorage.setItem("user", JSON.stringify(user));
-                        this.router.navigate(["/dashboard"]);
+                        switch (user.role) {
+                            case "ADMIN":
+                                this.router.navigate(["/list-subadmin"]);
+                                break;
+                            case "SUBADMIN":
+                                this.router.navigate([
+                                    "/list-hospital",
+                                    user.id,
+                                ]);
+                                break;
+                            case "HOSPITAL":
+                                this.router.navigate([
+                                    "/list-document",
+                                    user.hospital.id,
+                                ]);
+                                break;
+                        }
                     },
                     (err) => {
                         console.log(err);
-                        this.error = "Invalid login details!";
                     }
                 );
         }

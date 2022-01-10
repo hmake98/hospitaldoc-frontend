@@ -1,16 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { Apollo, gql } from "apollo-angular";
 
 export interface UserData {
     id: number;
     email: string;
     name: string;
-    hospital: {
-        id: number;
-        name: string;
-    };
 }
 
 const getSubadminList = gql`
@@ -20,39 +17,36 @@ const getSubadminList = gql`
             name
             email
             role
-            hospital {
-                id
-                name
-            }
             createdAt
             updatedAt
         }
     }
 `;
 
-const ELEMENT_DATA: UserData[] | any = [];
+const ELEMENT_DATA: UserData[] = [];
 
 @Component({
-    selector: "app-screen1",
-    templateUrl: "./screen1.component.html",
-    styleUrls: ["./screen1.component.scss"],
+    selector: "app-list-subadmin",
+    templateUrl: "./list-subadmin.component.html",
+    styleUrls: ["./list-subadmin.component.scss"],
 })
-export class Screen1Component implements OnInit {
-    displayedColumns: string[] = ["id", "name", "email", "hospital"];
+export class ListSubadminComponent implements OnInit {
+    displayedColumns: string[] = ["id", "name", "email"];
     dataSource = new MatTableDataSource<UserData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    constructor(private apollo: Apollo) {}
+    constructor(private apollo: Apollo, private router: Router) {}
 
     ngOnInit() {
         this.apollo
-            .query({
+            .query<{ getSubadminList: UserData[] }>({
                 query: getSubadminList,
                 variables: { take: 100, skip: 0 },
+                fetchPolicy: "network-only",
             })
             .subscribe(
                 (res) => {
-                    const data = res.data["getSubadminList"];
+                    const data = res.data.getSubadminList;
                     this.dataSource.data = data;
                 },
                 (err) => {
@@ -62,5 +56,11 @@ export class Screen1Component implements OnInit {
     }
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+    }
+    toAdd() {
+        this.router.navigateByUrl("/add-subadmin");
+    }
+    goToHospital(id) {
+        this.router.navigate(["/list-hospital", id]);
     }
 }

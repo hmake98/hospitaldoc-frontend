@@ -1,13 +1,10 @@
 <div id="sidebar">
     <mat-nav-list>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/dashboard']">
-            <mat-icon class="sidenav-icon">dashboard</mat-icon> {{ 'Dashboard' | translate }}
-        </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen1']" *ngIf="isAdmin">
+        <!-- <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/list-subadmin']">
             <mat-icon class="sidenav-icon">people</mat-icon> {{ 'Sub Admins' | translate }}
-        </a>
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen2']">
+        </a> -->
+        <!-- <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/screen2']">
             <mat-icon class="sidenav-icon">folder</mat-icon> {{ 'Documents' | translate }}
-        </a>
+        </a> -->
     </mat-nav-list>
 </div>

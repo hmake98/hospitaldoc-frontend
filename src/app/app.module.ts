@@ -14,6 +14,8 @@ import { HttpLink } from "apollo-angular/http";
 import { InMemoryCache, ApolloLink } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { environment } from "src/environments/environment";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
     /* for development
@@ -64,6 +66,8 @@ export function createApollo(httpLink: HttpLink) {
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
         LayoutModule,
         OverlayModule,
         HttpClientModule,

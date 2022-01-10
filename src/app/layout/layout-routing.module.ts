@@ -1,11 +1,14 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AdminGuard } from "../shared/guard/admin.guard";
-import { SubAdminGuard } from "../shared/guard/subadmin.guard";
+import { AuthGuard } from "../shared/guard";
+import { AddDocumentComponent } from "./add-document/add-document.component";
+import { AddHospitalComponent } from "./add-hospital/add-hospital.component";
+import { AddSubadminComponent } from "./add-subadmin/add-subadmin.component";
 
 import { LayoutComponent } from "./layout.component";
-import { Screen1Component } from "./screen1/screen1.component";
-import { Screen2Component } from "./screen2/screen2.component";
+import { ListDocumentComponent } from "./list-document/list-document.component";
+import { ListHospitalComponent } from "./list-hospital/list-hospital.component";
+import { ListSubadminComponent } from "./list-subadmin/list-subadmin.component";
 
 const routes: Routes = [
     {
@@ -13,28 +16,64 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             {
+                path: "list-subadmin",
+                component: ListSubadminComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "list-subadmin/:id",
+                component: ListSubadminComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "add-subadmin",
+                component: AddSubadminComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "list-document",
+                component: ListDocumentComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "list-document/:id",
+                component: ListDocumentComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "add-document",
+                component: AddDocumentComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "add-document/:id",
+                component: AddDocumentComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "list-hospital",
+                component: ListHospitalComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "list-hospital/:id",
+                component: ListHospitalComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "add-hospital",
+                component: AddHospitalComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "add-hospital/:id",
+                component: AddHospitalComponent,
+                canActivate: [AuthGuard],
+            },
+            {
                 path: "",
-                redirectTo: "dashboard",
-            },
-            {
-                path: "dashboard",
-                loadChildren: () =>
-                    import("./dashboard/dashboard.module").then(
-                        (m) => m.DashboardModule
-                    ),
-            },
-            {
-                path: "screen1",
-                loadChildren: () =>
-                    import("./screen1/screen1.module").then(
-                        (m) => m.Screen1Module
-                    ),
-                canActivate: [AdminGuard],
-            },
-            {
-                path: "screen2",
-                component: Screen2Component,
-                canActivate: [SubAdminGuard],
+                pathMatch: "full",
+                redirectTo: "list-subadmin",
             },
         ],
     },
