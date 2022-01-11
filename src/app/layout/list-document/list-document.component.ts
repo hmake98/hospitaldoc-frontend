@@ -3,6 +3,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Apollo, gql } from "apollo-angular";
+import jwt_decode from "jwt-decode";
 
 export interface DocumentData {
     id: number;
@@ -60,6 +61,7 @@ export class ListDocumentComponent implements OnInit {
     dataSource = new MatTableDataSource<DocumentData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
     qp: number;
+    user;
 
     constructor(
         private apollo: Apollo,
@@ -70,6 +72,8 @@ export class ListDocumentComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.user = jwt_decode(localStorage.getItem("token"));
+        console.log(this.user);
         this.apollo
             .query<{ getDocumentList: DocumentData[] }>({
                 query: getDocumentList,

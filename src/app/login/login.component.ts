@@ -14,10 +14,6 @@ const login = gql`
                 email
                 name
                 role
-                hospital {
-                    id
-                    name
-                }
             }
         }
     }
@@ -58,7 +54,6 @@ export class LoginComponent implements OnInit {
                         this.commonService.roleSubject.next(user.role);
                         localStorage.setItem("isLoggedin", "true");
                         localStorage.setItem("token", token);
-                        localStorage.setItem("user", JSON.stringify(user));
                         switch (user.role) {
                             case "ADMIN":
                                 this.router.navigate(["/list-subadmin"]);
@@ -72,7 +67,7 @@ export class LoginComponent implements OnInit {
                             case "HOSPITAL":
                                 this.router.navigate([
                                     "/list-document",
-                                    user.hospital.id,
+                                    user.id,
                                 ]);
                                 break;
                         }

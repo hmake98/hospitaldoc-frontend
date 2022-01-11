@@ -18,11 +18,7 @@ const createHospital = gql`
         ) {
             id
             name
-            createdBy {
-                id
-                name
-                email
-            }
+            subAdminId
             createdAt
             updatedAt
         }

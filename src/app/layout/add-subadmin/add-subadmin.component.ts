@@ -10,14 +10,12 @@ const createSubAdmin = gql`
         $password: String!
     ) {
         createSubAdmin(name: $name, email: $email, password: $password) {
-            user {
-                id
-                name
-                email
-                role
-                createdAt
-                updatedAt
-            }
+            id
+            name
+            email
+            role
+            createdAt
+            updatedAt
         }
     }
 `;
