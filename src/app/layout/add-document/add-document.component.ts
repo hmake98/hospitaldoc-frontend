@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
 import { Apollo, gql } from "apollo-angular";
 
 const createDocument = gql`
@@ -35,6 +36,10 @@ const createDocument = gql`
 export class AddDocumentComponent implements OnInit {
     @ViewChild("myform") form: NgForm;
     qp: number;
+    @ViewChild(BarcodeScannerLivestreamComponent)
+    barcodeScanner: BarcodeScannerLivestreamComponent;
+
+    barcodeValue;
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -47,6 +52,16 @@ export class AddDocumentComponent implements OnInit {
 
     back() {
         this.router.navigate(["/list-document", this.qp]);
+    }
+
+    startReading() {
+        this.barcodeScanner.start();
+    }
+
+    onValueChanges(result) {
+        this.barcodeValue = result.codeResult.code;
+        this.form.controls.barcode.setValue(this.barcodeValue);
+        this.barcodeScanner.stop();
     }
 
     addDoc() {

@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
@@ -41,6 +42,18 @@ const getDocumentList = gql`
     }
 `;
 
+const putDocumentPresign = gql`
+    query putDocumentPresign($docId: Int!, $fileName: String!) {
+        putDocumentPresign(docId: $docId, fileName: $fileName)
+    }
+`;
+
+const getDocumentPresign = gql`
+    query getDocumentPresign($docId: Int!, $fileName: String!) {
+        getDocumentPresign(docId: $docId, fileName: $fileName)
+    }
+`;
+
 const ELEMENT_DATA: DocumentData[] = [];
 @Component({
     selector: "app-list-document",
@@ -57,23 +70,29 @@ export class ListDocumentComponent implements OnInit {
         "boxNumber",
         "rackNumber",
         "viewCount",
+        "attachment",
     ];
     dataSource = new MatTableDataSource<DocumentData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
     qp: number;
     user;
+    srcResult;
 
     constructor(
         private apollo: Apollo,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private http: HttpClient
     ) {
         this.qp = Number(this.route.snapshot.params.id);
     }
 
     ngOnInit() {
+        this.getList();
+    }
+
+    getList() {
         this.user = jwt_decode(localStorage.getItem("token"));
-        console.log(this.user);
         this.apollo
             .query<{ getDocumentList: DocumentData[] }>({
                 query: getDocumentList,
@@ -99,5 +118,41 @@ export class ListDocumentComponent implements OnInit {
     }
     toAdd() {
         this.router.navigate(["/add-document", this.qp]);
+    }
+    onFileSelected(event, docId) {
+        this.apollo
+            .query<{ putDocumentPresign: string }>({
+                query: putDocumentPresign,
+                variables: {
+                    docId,
+                    fileName: event.target.files[0].name,
+                },
+            })
+            .subscribe((res) => {
+                const link = res.data.putDocumentPresign;
+                const upload = this.http
+                    .put(link, event.target.files[0])
+                    .toPromise();
+                upload
+                    .then((data) => {
+                        console.log("=> ", data);
+                        this.getList();
+                    })
+                    .catch((err) => console.log("error: ", err));
+            });
+    }
+    download(docId, fileName) {
+        this.apollo
+            .query<{ getDocumentPresign: string }>({
+                query: getDocumentPresign,
+                variables: {
+                    docId,
+                    fileName,
+                },
+            })
+            .subscribe((res) => {
+                console.log(res.data.getDocumentPresign);
+                window.open(res.data.getDocumentPresign, "_blank");
+            });
     }
 }

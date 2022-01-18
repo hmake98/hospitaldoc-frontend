@@ -8,20 +8,20 @@ import { CommonService } from "src/app/shared/services/common.service";
 })
 export class SidebarComponent implements OnInit {
     public showMenu: string;
-    public isAdmin: boolean;
-    public isSubAdmin: boolean;
-    public isUser: boolean;
+    // public isAdmin: boolean;
+    // public isSubAdmin: boolean;
+    // public isUser: boolean;
     constructor(private commonService: CommonService) {}
 
     ngOnInit() {
-        const role = JSON.parse(localStorage.getItem("user")).role;
-        if (role === "ADMIN") {
-            this.isAdmin = true;
-        } else if (role === "SUBADMIN") {
-            this.isSubAdmin = true;
-        } else {
-            this.isUser = true;
-        }
+        // const role = JSON.parse(localStorage.getItem("user")).role;
+        // if (role === "ADMIN") {
+        //     this.isAdmin = true;
+        // } else if (role === "SUBADMIN") {
+        //     this.isSubAdmin = true;
+        // } else {
+        //     this.isUser = true;
+        // }
         this.showMenu = "";
     }
 

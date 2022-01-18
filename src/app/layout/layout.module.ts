@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
+import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
 import { AdminGuard } from "../shared/guard/admin.guard";
 import { SubAdminGuard } from "../shared/guard/subadmin.guard";
 import { MaterialModule } from "../shared/modules/material/material.module";
@@ -24,6 +25,7 @@ import { NavComponent } from "./nav/nav.component";
         MaterialModule,
         TranslateModule,
         FormsModule,
+        BarcodeScannerLivestreamModule,
     ],
     declarations: [
         LayoutComponent,

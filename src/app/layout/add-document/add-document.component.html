@@ -5,6 +5,9 @@
 
 <h2> Add document </h2>
 <hr>
+<div>
+
+</div>
 <form #myform="ngForm">
     <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
@@ -12,7 +15,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Barcode</mat-label>
-        <input matInput name="barcode" ngModel>
+        <input matInput name="barcode" ngModel (click)="startReading()">
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Link</mat-label>
@@ -24,12 +27,14 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Rack Number</mat-label>
-        <input matInput type="number"  name="rackNumber" ngModel>
+        <input matInput type="number" name="rackNumber" ngModel>
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Box Number</mat-label>
-        <input matInput type="number"  name="boxNumber" ngModel>
+        <input matInput type="number" name="boxNumber" ngModel>
     </mat-form-field>
 </form>
 <br>
 <button mat-button color="primary" (click)="addDoc()"> Add </button>
+<barcode-scanner-livestream type="code_128" (valueChanges)="onValueChanges($event)">
+</barcode-scanner-livestream>
