@@ -153,6 +153,7 @@ export class ListDocumentComponent implements OnInit {
             .subscribe((res) => {
                 console.log(res.data.getDocumentPresign);
                 window.open(res.data.getDocumentPresign, "_blank");
+                this.getList();
             });
     }
 }
