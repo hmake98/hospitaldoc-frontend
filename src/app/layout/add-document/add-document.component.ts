@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
 import { Apollo, gql } from "apollo-angular";
+import { Location } from "@angular/common";
 
 const createDocument = gql`
     mutation createDocument(
@@ -43,15 +44,16 @@ export class AddDocumentComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private apollo: Apollo
+        private apollo: Apollo,
+        private _location: Location,
     ) {
         this.qp = Number(this.route.snapshot.params.id);
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     back() {
-        this.router.navigate(["/list-document", this.qp]);
+        this._location.back();
     }
 
     startReading() {

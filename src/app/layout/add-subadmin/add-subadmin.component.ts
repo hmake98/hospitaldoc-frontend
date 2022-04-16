@@ -1,3 +1,4 @@
+import { Location } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -27,9 +28,13 @@ const createSubAdmin = gql`
 })
 export class AddSubadminComponent implements OnInit {
     @ViewChild("myform") form: NgForm;
-    constructor(private apollo: Apollo, private router: Router) {}
+    constructor(
+        private apollo: Apollo,
+        private router: Router,
+        private _location: Location
+    ) { }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     addSubadmin() {
         this.apollo
@@ -44,6 +49,6 @@ export class AddSubadminComponent implements OnInit {
             });
     }
     back() {
-        this.router.navigate(["/list-subadmin"]);
+        this._location.back();
     }
 }

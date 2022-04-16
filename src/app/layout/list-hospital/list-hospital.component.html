@@ -2,16 +2,53 @@
 <div class="mat-elevation-z2">
     <table mat-table [dataSource]="dataSource">
 
-        <!-- Position Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> #ID </th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
-
-        <!-- Name Column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="clientName">
+            <th mat-header-cell *matHeaderCellDef> Client Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.clientName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+        <ng-container matColumnDef="legalName">
+            <th mat-header-cell *matHeaderCellDef> Legal Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.legalName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="billingAddress">
+            <th mat-header-cell *matHeaderCellDef> Billing Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.billingAddress}} </td>
+        </ng-container>
+        <ng-container matColumnDef="panCard">
+            <th mat-header-cell *matHeaderCellDef> Pan Card </th>
+            <td mat-cell *matCellDef="let element"> {{element.panCard}} </td>
+        </ng-container>
+        <ng-container matColumnDef="gst">
+            <th mat-header-cell *matHeaderCellDef> GST </th>
+            <td mat-cell *matCellDef="let element"> {{element.gst}} </td>
+        </ng-container>
+        <ng-container matColumnDef="agreementDuration">
+            <th mat-header-cell *matHeaderCellDef> Aggreement Duration </th>
+            <td mat-cell *matCellDef="let element"> {{element.agreementDuration}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emergencyContactName">
+            <th mat-header-cell *matHeaderCellDef> Emergency Contact Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.emergencyContactName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emergencyContactNumber">
+            <th mat-header-cell *matHeaderCellDef> Emergency Contact Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.emergencyContactNumber}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

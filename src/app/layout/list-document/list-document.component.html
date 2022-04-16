@@ -1,3 +1,8 @@
+<button mat-button (click)="back()" *ngIf="user.user.role !== 'HOSPITAL'">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    Back
+</button>
+<br>
 <button mat-button color="primary" (click)="toAdd()" *ngIf="user.user.role !== 'HOSPITAL'">Add Documents</button>
 <div class="mat-elevation-z2">
     <table mat-table [dataSource]="dataSource">
@@ -34,13 +39,14 @@
         </ng-container>
 
         <ng-container matColumnDef="boxNumber">
-            <th mat-header-cell *matHeaderCellDef> Box Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.boxNumber}} </td>
+            <th mat-header-cell *matHeaderCellDef [hidden]="user.user.role === 'SUBADMIN'"> Box Number </th>
+            <td mat-cell *matCellDef="let element" [hidden]="user.user.role === 'SUBADMIN'"> {{element.boxNumber}} </td>
         </ng-container>
 
         <ng-container matColumnDef="rackNumber">
-            <th mat-header-cell *matHeaderCellDef> Rack Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.rackNumber}} </td>
+            <th mat-header-cell *matHeaderCellDef [hidden]="user.user.role === 'SUBADMIN'"> Rack Number </th>
+            <td mat-cell *matCellDef="let element" [hidden]="user.user.role === 'SUBADMIN'"> {{element.rackNumber}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="viewCount">
@@ -51,8 +57,9 @@
         <ng-container matColumnDef="attachment">
             <th mat-header-cell *matHeaderCellDef
                 [hidden]="user.user.role === 'SUBADMIN' || user.user.role === 'HOSPITAL'"> Attachment </th>
-            <td mat-cell *matCellDef="let element"> <i class="material-icons" (click)="fileInput.click()"
-                    [hidden]="user.user.role === 'SUBADMIN' || user.user.role === 'HOSPITAL'">attachment</i>
+            <td mat-cell *matCellDef="let element"
+                [hidden]="user.user.role === 'SUBADMIN' || user.user.role === 'HOSPITAL'"> <i
+                    class="material-icons pointer" (click)="fileInput.click()">attachment</i>
                 <input hidden (change)="onFileSelected($event, element.id)" #fileInput type="file" id="file">
             </td>
         </ng-container>

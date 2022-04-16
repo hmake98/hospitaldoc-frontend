@@ -14,6 +14,16 @@ const getHospitalList = gql`
         getHospitalList(take: $take, skip: $skip, subAdminId: $subAdminId) {
             id
             name
+            clientName,
+            address,
+            phone,
+            legalName,
+            billingAddress,
+            panCard,
+            gst,
+            agreementDuration,
+            emergencyContactName,
+            emergencyContactNumber
             createdAt
             updatedAt
         }
@@ -28,7 +38,20 @@ const ELEMENT_DATA: HospitalData[] | any = [];
     styleUrls: ["./list-hospital.component.scss"],
 })
 export class ListHospitalComponent implements OnInit {
-    displayedColumns: string[] = ["id", "name"];
+    displayedColumns: string[] = [
+        "id",
+        "name",
+        "clientName",
+        "address",
+        "phone",
+        "legalName",
+        "billingAddress",
+        "panCard",
+        "gst",
+        "agreementDuration",
+        "emergencyContactName",
+        "emergencyContactNumber"
+    ];
     dataSource = new MatTableDataSource<HospitalData>(ELEMENT_DATA);
     qp: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,7 +72,7 @@ export class ListHospitalComponent implements OnInit {
         this.apollo
             .query<{ getHospitalList: HospitalData[] }>({
                 query: getHospitalList,
-                variables: { take: 100, skip: 0, subAdminId: this.qp },
+                variables: { take: 100, skip: 0, subAdminId: this.qp || undefined },
                 fetchPolicy: "network-only",
             })
             .subscribe(

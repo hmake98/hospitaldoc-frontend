@@ -1,3 +1,4 @@
+import { Location } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -9,16 +10,46 @@ const createHospital = gql`
         $subAdminId: Int!
         $email: String!
         $password: String!
+        $clientName: String!,
+        $address: String!,
+        $phone: String!,
+        $legalName: String!,
+        $billingAddress: String!,
+        $panCard: String!,
+        $gst: String!,
+        $agreementDuration: Int!,
+        $emergencyContactName: String!,
+        $emergencyContactNumber: String!
     ) {
         createHospital(
             name: $name
             subAdminId: $subAdminId
             email: $email
-            password: $password
+            password: $password,
+            clientName: $clientName,
+            address: $address,
+            phone: $phone,
+            legalName: $legalName,
+            billingAddress: $billingAddress,
+            panCard: $panCard,
+            gst: $gst,
+            agreementDuration: $agreementDuration,
+            emergencyContactName: $emergencyContactName,
+            emergencyContactNumber: $emergencyContactNumber,
         ) {
             id
             name
             subAdminId
+            clientName,
+            address,
+            phone,
+            legalName,
+            billingAddress,
+            panCard,
+            gst,
+            agreementDuration,
+            emergencyContactName,
+            emergencyContactNumber
             createdAt
             updatedAt
         }
@@ -36,12 +67,13 @@ export class AddHospitalComponent implements OnInit {
     constructor(
         private apollo: Apollo,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private _location: Location,
     ) {
         this.qp = Number(this.route.snapshot.params.id);
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
     addHospital() {
         this.apollo
             .mutate({
@@ -56,6 +88,6 @@ export class AddHospitalComponent implements OnInit {
             });
     }
     back() {
-        this.router.navigate(["/list-hospital", this.qp]);
+        this._location.back();
     }
 }

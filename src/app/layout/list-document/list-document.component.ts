@@ -1,3 +1,4 @@
+import { Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
@@ -82,7 +83,8 @@ export class ListDocumentComponent implements OnInit {
         private apollo: Apollo,
         private router: Router,
         private route: ActivatedRoute,
-        private http: HttpClient
+        private http: HttpClient,
+        private _location: Location,
     ) {
         this.qp = Number(this.route.snapshot.params.id);
     }
@@ -99,7 +101,7 @@ export class ListDocumentComponent implements OnInit {
                 variables: {
                     skip: 0,
                     take: 100,
-                    hospitalId: this.qp,
+                    hospitalId: this.qp || undefined,
                 },
                 fetchPolicy: "network-only",
             })
@@ -135,7 +137,6 @@ export class ListDocumentComponent implements OnInit {
                     .toPromise();
                 upload
                     .then((data) => {
-                        console.log("=> ", data);
                         this.getList();
                     })
                     .catch((err) => console.log("error: ", err));
@@ -155,5 +156,8 @@ export class ListDocumentComponent implements OnInit {
                 window.open(res.data.getDocumentPresign, "_blank");
                 this.getList();
             });
+    }
+    back() {
+        this._location.back();
     }
 }
