@@ -15,6 +15,7 @@ const getSubadminList = gql`
         getSubadminList(take: $take, skip: $skip, search: $search) {
             id
             name
+            userId
             email
             role
             createdAt
@@ -31,11 +32,11 @@ const ELEMENT_DATA: UserData[] = [];
     styleUrls: ["./list-subadmin.component.scss"],
 })
 export class ListSubadminComponent implements OnInit {
-    displayedColumns: string[] = ["id", "name", "email"];
+    displayedColumns: string[] = ["id", "userId", "name", "email"];
     dataSource = new MatTableDataSource<UserData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    constructor(private apollo: Apollo, private router: Router) {}
+    constructor(private apollo: Apollo, private router: Router) { }
 
     ngOnInit() {
         this.apollo

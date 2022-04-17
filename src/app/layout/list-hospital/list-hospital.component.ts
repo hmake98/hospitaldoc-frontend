@@ -14,6 +14,7 @@ const getHospitalList = gql`
         getHospitalList(take: $take, skip: $skip, subAdminId: $subAdminId) {
             id
             name
+            userId,
             clientName,
             address,
             phone,
@@ -41,6 +42,7 @@ export class ListHospitalComponent implements OnInit {
     displayedColumns: string[] = [
         "id",
         "name",
+        "userId",
         "clientName",
         "address",
         "phone",
@@ -93,5 +95,8 @@ export class ListHospitalComponent implements OnInit {
     }
     openDocs(id) {
         this.router.navigate(["/list-document", id]);
+    }
+    back() {
+        this.router.navigateByUrl('/list-subadmin');
     }
 }

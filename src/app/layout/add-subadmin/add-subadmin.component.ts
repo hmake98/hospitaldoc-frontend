@@ -6,13 +6,15 @@ import { Apollo, gql } from "apollo-angular";
 
 const createSubAdmin = gql`
     mutation createSubAdmin(
-        $name: String!
-        $email: String!
+        $name: String
+        $email: String
+        $userId: String
         $password: String!
     ) {
-        createSubAdmin(name: $name, email: $email, password: $password) {
+        createSubAdmin(name: $name, email: $email, userId: $userId, password: $password) {
             id
             name
+            userId
             email
             role
             createdAt

@@ -143,6 +143,7 @@ export class ListDocumentComponent implements OnInit {
             });
     }
     download(docId, fileName) {
+        console.log(docId, fileName)
         this.apollo
             .query<{ getDocumentPresign: string }>({
                 query: getDocumentPresign,
@@ -150,9 +151,9 @@ export class ListDocumentComponent implements OnInit {
                     docId,
                     fileName,
                 },
+                fetchPolicy: 'network-only'
             })
             .subscribe((res) => {
-                console.log(res.data.getDocumentPresign);
                 window.open(res.data.getDocumentPresign, "_blank");
                 this.getList();
             });
