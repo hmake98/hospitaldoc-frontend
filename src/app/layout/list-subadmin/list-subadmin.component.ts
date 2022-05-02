@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { Apollo, gql } from "apollo-angular";
+import { EditPasswordComponent } from "../edit-password/edit-password.component";
+import jwt_decode from "jwt-decode";
 
 export interface UserData {
     id: number;
@@ -32,13 +35,15 @@ const ELEMENT_DATA: UserData[] = [];
     styleUrls: ["./list-subadmin.component.scss"],
 })
 export class ListSubadminComponent implements OnInit {
-    displayedColumns: string[] = ["id", "userId", "name", "email"];
+    displayedColumns: string[] = ["id", "userId", "name", "email", "action"];
     dataSource = new MatTableDataSource<UserData>(ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
-
-    constructor(private apollo: Apollo, private router: Router) { }
+    user;
+    constructor(private apollo: Apollo, private router: Router, public dialog: MatDialog) { }
 
     ngOnInit() {
+        this.user = jwt_decode(localStorage.getItem("token"));
+
         this.apollo
             .query<{ getSubadminList: UserData[] }>({
                 query: getSubadminList,
@@ -63,5 +68,11 @@ export class ListSubadminComponent implements OnInit {
     }
     goToHospital(id) {
         this.router.navigate(["/list-hospital", id]);
+    }
+    edit(id) {
+        this.dialog.open(EditPasswordComponent, {
+            width: '250px',
+            data: { id }
+        });
     }
 }

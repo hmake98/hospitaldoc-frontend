@@ -3,7 +3,9 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Apollo, gql } from "apollo-angular";
-
+import jwt_decode from 'jwt-decode';
+import { EditPasswordComponent } from "../edit-password/edit-password.component";
+import { MatDialog } from '@angular/material/dialog';
 export interface HospitalData {
     id: number;
     name: string;
@@ -52,21 +54,25 @@ export class ListHospitalComponent implements OnInit {
         "gst",
         "agreementDuration",
         "emergencyContactName",
-        "emergencyContactNumber"
+        "emergencyContactNumber",
+        "action"
     ];
     dataSource = new MatTableDataSource<HospitalData>(ELEMENT_DATA);
     qp: number;
+    user;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
         private apollo: Apollo,
         private router: Router,
+        private dialog: MatDialog,
         private route: ActivatedRoute
     ) {
         this.qp = Number(this.route.snapshot.params.id);
     }
 
     ngOnInit() {
+        this.user = jwt_decode(localStorage.getItem("token"));
         this.getData();
     }
 
@@ -98,5 +104,11 @@ export class ListHospitalComponent implements OnInit {
     }
     back() {
         this.router.navigateByUrl('/list-subadmin');
+    }
+    edit(id) {
+        this.dialog.open(EditPasswordComponent, {
+            width: '250px',
+            data: { id }
+        });
     }
 }

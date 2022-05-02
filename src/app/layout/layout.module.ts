@@ -17,6 +17,7 @@ import { ListDocumentComponent } from "./list-document/list-document.component";
 import { ListHospitalComponent } from "./list-hospital/list-hospital.component";
 import { ListSubadminComponent } from "./list-subadmin/list-subadmin.component";
 import { NavComponent } from "./nav/nav.component";
+import { EditPasswordComponent } from './edit-password/edit-password.component';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import { NavComponent } from "./nav/nav.component";
         ListSubadminComponent,
         ListDocumentComponent,
         ListHospitalComponent,
+        EditPasswordComponent,
     ],
     providers: [SubAdminGuard, AdminGuard],
 })
