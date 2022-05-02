@@ -36,5 +36,5 @@
 </form>
 <br>
 <button mat-button color="primary" (click)="addDoc()"> Add </button>
-<barcode-scanner-livestream type="code_128" (valueChanges)="onValueChanges($event)">
+<barcode-scanner-livestream (valueChanges)="onValueChanges($event)" [type]="['code_39']">
 </barcode-scanner-livestream>

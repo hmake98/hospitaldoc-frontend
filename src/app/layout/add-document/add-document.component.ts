@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
 import { Apollo, gql } from "apollo-angular";
 import { Location } from "@angular/common";
+import { QuaggaJSResultObject } from '@ericblade/quagga2';
+
 
 const createDocument = gql`
     mutation createDocument(
@@ -39,7 +41,6 @@ export class AddDocumentComponent implements OnInit {
     qp: number;
     @ViewChild(BarcodeScannerLivestreamComponent)
     barcodeScanner: BarcodeScannerLivestreamComponent;
-
     barcodeValue;
     constructor(
         private router: Router,
@@ -60,7 +61,7 @@ export class AddDocumentComponent implements OnInit {
         this.barcodeScanner.start();
     }
 
-    onValueChanges(result) {
+    onValueChanges(result: QuaggaJSResultObject) {
         this.barcodeValue = result.codeResult.code;
         this.form.controls.barcode.setValue(this.barcodeValue);
         this.barcodeScanner.stop();

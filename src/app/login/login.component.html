@@ -9,7 +9,7 @@
                 <div fxFlexFill>
                     <mat-form-field class="w-100"
                         [ngClass]="{'mat-form-field-invalid': userForm.dirty && userForm.errors }">
-                        <input matInput type="email" placeholder="Email / User Id" name="email" ngModel>
+                        <input matInput type="email" placeholder="Email / User Id" name="email" required ngModel>
                     </mat-form-field>
                 </div>
             </div>

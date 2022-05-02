@@ -6,22 +6,24 @@ import { Apollo, gql } from "apollo-angular";
 
 const createHospital = gql`
     mutation createHospital(
+        $userId: String!
         $name: String!
         $subAdminId: Int!
         $email: String!
         $password: String!
-        $clientName: String!,
-        $address: String!,
-        $phone: String!,
-        $legalName: String!,
-        $billingAddress: String!,
-        $panCard: String!,
-        $gst: String!,
-        $agreementDuration: Int!,
-        $emergencyContactName: String!,
+        $clientName: String!
+        $address: String!
+        $phone: String!
+        $legalName: String!
+        $billingAddress: String!
+        $panCard: String!
+        $gst: String!
+        $agreementDuration: Int!
+        $emergencyContactName: String!
         $emergencyContactNumber: String!
     ) {
         createHospital(
+            userId: $userId
             name: $name
             subAdminId: $subAdminId
             email: $email
